@@ -22,8 +22,14 @@ glob('raw/*.json', (err, matches) => {
         let directory = matches[i].split('/');
         let name = 'formatted/' + directory[directory.length - 1];
         let rawCoords = JSON.parse(await fs.readFile(matches[i], 'utf-8')).features[0].geometry.coordinates[0];
-        console.log(rawCoords);
-        //fs.writeFile(name, contents, (err) => {if (err) throw err});
+        let coordinates = (() => {
+          let temp = {"polygon": []};
+          for (let j = 0; j < rawCoords.length; j++) {
+            temp.polygon.push([rawCoords[j][1], rawCoords[j][0]]);
+          }
+          return temp;
+        })();
+        fs.writeFile(name, JSON.stringify(coordinates), (err) => {if (err) throw err});
       })();
     }
   }
