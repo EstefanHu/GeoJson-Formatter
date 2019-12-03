@@ -9,7 +9,7 @@ glob('formatted/*', (err, matches) => {
     for (let i = 0; i < matches.length; i++) {
       fs.unlink(matches[i], (err) => {if (err) throw err});
     }
-    console.log('Directory cleared!');
+    console.log('Cleared old files');
   }
 });
 
@@ -26,6 +26,9 @@ glob('raw/*.json', (err, matches) => {
         //fs.writeFile(name, contents, (err) => {if (err) throw err});
       })();
     }
-    console.log("----Script Complete----");
   }
+});
+
+process.on('exit', function(code) {
+  return console.log('---Script Complete----');
 });
