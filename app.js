@@ -19,10 +19,11 @@ glob('raw/*.json', (err, matches) => {
   } else {
     for (let i = 0; i < matches.length; i++) {
       (async () => {
-        let contents = await fs.readFile(matches[i], 'utf-8');
         let directory = matches[i].split('/');
         let name = 'formatted/' + directory[directory.length - 1];
-        fs.writeFile(name, contents, (err) => {if (err) throw err});
+        let rawCoords = JSON.parse(await fs.readFile(matches[i], 'utf-8')).features[0].geometry.coordinates[0];
+        console.log(rawCoords);
+        //fs.writeFile(name, contents, (err) => {if (err) throw err});
       })();
     }
     console.log("----Script Complete----");
