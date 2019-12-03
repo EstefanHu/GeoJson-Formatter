@@ -30,6 +30,7 @@ glob('raw/*.json', (err, matches) => {
           return temp;
         })();
         fs.writeFile(name, JSON.stringify(coordinates), (err) => {if (err) throw err});
+        fs.unlink(matches[i], (err) => {if (err) throw err});
       })();
     }
   }
