@@ -1,8 +1,6 @@
 'use strict';
 const fs = require('fs').promises;
-const util = require('util');
 const glob = require('glob');
-const globPromise = util.promisify(glob);
 
 glob('raw/*.json', (err, matches) => {
   if (err) {
@@ -11,7 +9,9 @@ glob('raw/*.json', (err, matches) => {
     for (let i = 0; i < matches.length; i++) {
       (async () => {
         let contents = await fs.readFile(matches[i], 'utf-8');
-        console.log(contents);
+        let directory = matches[i].split('/');
+        let name = 'formatted/' + directory[directory.length - 1];
+        fs.writeFile(name, contents, (err) => {if (err) throw err});
       })();
     }
   }
