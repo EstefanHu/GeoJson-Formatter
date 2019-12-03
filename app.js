@@ -2,9 +2,20 @@
 const fs = require('fs').promises;
 const glob = require('glob');
 
+glob('formatted/*', (err, matches) => {
+  if (err) {
+    console.log('ERROR: ' + err);
+  } else {
+    for (let i = 0; i < matches.length; i++) {
+      fs.unlink(matches[i], (err) => {if (err) throw err});
+    }
+    console.log('Directory cleared!');
+  }
+});
+
 glob('raw/*.json', (err, matches) => {
   if (err) {
-    console.log("ERROR: " + err);
+    console.log('ERROR: ' + err);
   } else {
     for (let i = 0; i < matches.length; i++) {
       (async () => {
@@ -14,6 +25,6 @@ glob('raw/*.json', (err, matches) => {
         fs.writeFile(name, contents, (err) => {if (err) throw err});
       })();
     }
+    console.log("----Script Complete----");
   }
-  console.log("----Script Complete----");
 });
